@@ -1,6 +1,7 @@
 package com.dev.prac.JWTbasic.config;
 
 import com.dev.prac.JWTbasic.domain.user.Role;
+import com.dev.prac.JWTbasic.jwt.JWTUtil;
 import com.dev.prac.JWTbasic.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,18 +16,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-@RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil;
+
+    public SecurityConfig(AuthenticationConfiguration authenticationConfiguration, JWTUtil jwtUtil) {
+        this.authenticationConfiguration = authenticationConfiguration;
+        this.jwtUtil = jwtUtil;
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -56,7 +61,7 @@ public class SecurityConfig {
 
         // formLogin disable 했으므로 그에 해당하는 LoginFilter()를 추가한다.(AuthenticationManager() 메소드에 authenticationConfiguration 객체를 넣어야 함)
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
+                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration), jwtUtil), UsernamePasswordAuthenticationFilter.class);
         // 세션 설정 - jwt 인증/인가에서는 session stateless 상태
         http
                 .sessionManagement(session -> session
