@@ -1,5 +1,6 @@
 package com.dev.prac.JWTbasic.config;
 
+import com.dev.prac.JWTbasic.domain.user.Role;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -35,8 +36,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/image/**", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/", "/login", "/join").permitAll()
-                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers("/", "/main","/login", "/join").permitAll()
+                        .requestMatchers("/admin").hasRole(Role.ADMIN.name()) // "ADMIN"
                         .anyRequest().authenticated()
                 );
         // 세션 설정 - jwt 인증/인가에서는 session stateless 상태
