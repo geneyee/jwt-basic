@@ -1,5 +1,6 @@
 package com.dev.prac.JWTbasic.jwt;
 
+import com.dev.prac.JWTbasic.domain.user.Role;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

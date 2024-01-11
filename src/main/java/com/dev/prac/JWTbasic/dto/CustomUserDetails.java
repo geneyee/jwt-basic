@@ -23,7 +23,7 @@ public class CustomUserDetails implements UserDetails {
         collection.add(new GrantedAuthority() {
             @Override
             public String getAuthority() {
-                return userEntity.getRole().name();
+                return userEntity.getRole();
             }
         });
         return collection;

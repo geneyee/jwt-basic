@@ -17,13 +17,19 @@ public class UserEntity {
     private String username;
     private String password;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
+//    @Enumerated(EnumType.STRING)
+//    private Role role;
+
+    private String role;
 
     @Builder
-    public UserEntity(String username, String password, Role role) {
+    public UserEntity(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
+
+//    public String getRoleKey() {
+//        return this.role.getKey(); // "ROLE_"
+//    }
 }

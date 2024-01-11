@@ -12,23 +12,15 @@ public class JoinDTO {
 
     private String username;
     private String password;
-    private Role role;
+    private String role;
 
     @Builder
-    public JoinDTO(String username, String password, Role role) {
+    public JoinDTO(String username, String password, String role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public Role admin(Role role) {
-        this.role = Role.ADMIN;
-        return role;
-    }
-
-    public void user(Role role) {
-        this.role = Role.USER;
-    }
 
     public static JoinDTO of(UserEntity user) {
         return new JoinDTO(
