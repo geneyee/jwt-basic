@@ -2,6 +2,8 @@ package com.dev.prac.JWTbasic.jwt;
 
 import com.dev.prac.JWTbasic.domain.user.Role;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.jackson.io.JacksonDeserializer;
+import io.jsonwebtoken.lang.Maps;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -9,6 +11,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Map;
 
 @Component
 public class JWTUtil { // jwt 생성 및 검증
@@ -29,7 +32,19 @@ public class JWTUtil { // jwt 생성 및 검증
 
     // role 확인(검증)
     public String getRole(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("role", String.class);
+        return Jwts.parser().verifyWith(secretKey) // 우리가 생성한 (서버) secretKey가 맞는지 확인
+                .build() // build로 리턴
+                .parseSignedClaims(token) // token으로 claim확인
+                .getPayload().get("role", String.class);
+
+        /* Role enum 타입으로 만들어서 받아보려고 했는데 이 부분을 잘 모르겠다ㅠ
+        https://github.com/jwtk/jjwt#custom-json-processor
+        return Jwts.parser()
+                .json(new JacksonDeserializer(Maps.of("role", Role.class).build()))
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload().get("role", Role.class);*/
     }
 
     // 토큰 만료일 확인(검증) 현재시간 넣어줌

@@ -32,7 +32,7 @@ public class JoinService {
             UserEntity user = UserEntity.builder()
                             .username(joinDTO.getUsername())
                             .password(passwordEncoder.encode(joinDTO.getPassword()))
-                            .role("ADMIN")
+                            .role("ROLE_ADMIN") // Role.ADMIN
                             .build();
 
             UserEntity entity = userRepository.save(user);
@@ -43,7 +43,7 @@ public class JoinService {
             UserEntity user = UserEntity.builder()
                     .username(joinDTO.getUsername())
                     .password(passwordEncoder.encode(joinDTO.getPassword()))
-                    .role("USER")
+                    .role("ROLE_USER")
                     .build();
 
             UserEntity entity = userRepository.save(user);
